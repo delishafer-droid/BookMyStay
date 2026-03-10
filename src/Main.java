@@ -1,69 +1,76 @@
-// Use Case 4 – Room Search & Availability Check
+// Use Case 5 – Booking Request (First-Come-First-Served)
+import java.util.Scanner;
+import java.util.LinkedList;
+import java.util.Queue;
 
-import java.util.HashMap;
+class Reservation {
 
-class RoomInventory {
+    private String guestName;
+    private String roomType;
 
-    private HashMap<String, Integer> inventory;
-
-    public RoomInventory() {
-        inventory = new HashMap<>();
-
-        inventory.put("Single Room", 5);
-        inventory.put("Double Room", 3);
-        inventory.put("Suite Room", 0); // Example: unavailable
+    public Reservation(String guestName, String roomType) {
+        this.guestName = guestName;
+        this.roomType = roomType;
     }
 
-    public int getAvailability(String roomType) {
-        return inventory.getOrDefault(roomType, 0);
-    }
-}
-class Room {
-
-    private String type;
-    private int beds;
-    private double price;
-
-    public Room(String type, int beds, double price) {
-        this.type = type;
-        this.beds = beds;
-        this.price = price;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void displayDetails() {
-        System.out.println("Room Type : " + type);
-        System.out.println("Beds      : " + beds);
-        System.out.println("Price     : $" + price);
+    public void displayReservation() {
+        System.out.println("Guest: " + guestName + " | Room Type: " + roomType);
     }
 }
 
-public class UseCase4RoomSearch {
+class BookingRequestQueue {
+
+    private Queue<Reservation> requestQueue;
+
+    public BookingRequestQueue() {
+        requestQueue = new LinkedList<>();
+    }
+
+    public void addRequest(Reservation r) {
+        requestQueue.add(r);
+    }
+
+    public void displayRequests() {
+
+        System.out.println("\nBooking Requests in Queue:");
+
+        for (Reservation r : requestQueue) {
+            r.displayReservation();
+        }
+    }
+}
+
+class UseCase5BookingRequestQueue {
 
     public static void main(String[] args) {
-        System.out.println("       Book My Stay ");
-        RoomInventory inventory = new RoomInventory();
 
-        Room single = new Room("Single Room", 1, 100.0);
-        Room doubleRoom = new Room("Double Room", 2, 180.0);
-        Room suite = new Room("Suite Room", 3, 300.0);
+        Scanner sc = new Scanner(System.in);
 
-        Room[] rooms = {single, doubleRoom, suite};
+        System.out.println("       Book My Stay v5.1");
 
-        System.out.println("\nAvailable Rooms:\n");
+        BookingRequestQueue queue = new BookingRequestQueue();
 
-        for (Room room : rooms) {
+        System.out.print("Enter number of booking requests: ");
+        int n = sc.nextInt();
+        sc.nextLine();
 
-            int availability = inventory.getAvailability(room.getType());
+        for (int i = 1; i <= n; i++) {
 
-            if (availability > 0) {   // Show only available rooms
-                room.displayDetails();
-                System.out.println("Available Rooms: " + availability);
-                System.out.println();
-            }
+            System.out.println("\nEnter details for request " + i);
+
+            System.out.print("Guest Name: ");
+            String name = sc.nextLine();
+
+            System.out.print("Room Type (Single/Double/Suite): ");
+            String room = sc.nextLine();
+
+            Reservation reservation = new Reservation(name, room);
+
+            queue.addRequest(reservation);
         }
+
+        queue.displayRequests();
+
+        sc.close();
     }
 }
