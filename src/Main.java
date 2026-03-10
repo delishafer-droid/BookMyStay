@@ -1,4 +1,4 @@
-//UC2 : Basic Room Types & Static Availability"
+//UC2 : Basic Room Types & Static Availability
 
 abstract class Room {
 
