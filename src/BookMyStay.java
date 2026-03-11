@@ -30,9 +30,8 @@ class RoomInventory {
         for (Map.Entry<String, Integer> entry : inventory.entrySet()) {
             System.out.println(entry.getKey() + " : " + entry.getValue() + " available");
         }
-    }
 }
-class InventorySetup {
+class BookMyStay {
 
     public static void main(String[] args) {
         System.out.println("       Book My Stay");
